@@ -24,8 +24,9 @@ get '/login' do #<-- login with LinkedIn
 
 	uri = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=#{client_id}&scope=#{scope}&state=#{state}&redirect_uri=#{redirect}"
 	#HTTParty.post(uri, :query => { :email => "" })      ????????? maybe no hash needed since i interpolated strings in URI?
-	
+	# p uri
 	response = HTTParty.post(uri)
-	p response
+	redirect uri
+	
 end
 
