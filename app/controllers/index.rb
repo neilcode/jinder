@@ -15,3 +15,9 @@ post '/users' do
 	p params[:user]
 	redirect '/'
 end
+
+get '/login' do #<-- login with LinkedIn
+	client_id = ENV['CLIENT_ID']
+	
+end
+
