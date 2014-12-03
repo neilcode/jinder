@@ -44,10 +44,20 @@ get '/logged_in' do
 end
 
 post '/users/new' do
+	#we need to pull info from the user's linkedIn account and use it to create a user in our db.
 	token = params[:token][:access_token]
-	new_user_email = HTTParty.get("https://api.linkedin.com/v1/people/~:(email-address)?oauth2_access_token=#{token}")
-	new_user_email = Crack::XML.parse(new_user_email.body)
-	p new_user_email["person"]["email_address"]
+	new_user_email = Crack::XML.parse(HTTParty.get("https://api.linkedin.com/v1/people/~:(email-address)?oauth2_access_token=#{token}").body)
+	userdata = Crack::XML.parse(HTTParty.get("https://api.linkedin.com/v1/people/~?oauth2_access_token=#{token}").body)
+	#isolate the email from the XML hash
+	new_user_email = new_user_email["person"]["email_address"]
+	profile = /id=(\d+)/.match(userdata["person"]["site_standard_profile_request"]["url"])[1]
+	infohash = {
+		name: userdata["person"]["first_name"] + " " + userdata["person"]["last_name"],
+		headline: userdata["person"]["headline"],
+		linked_in_profile_id: profile
+	}
+
+	binding.pry
 
 end
 
