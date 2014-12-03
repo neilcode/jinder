@@ -13,7 +13,7 @@ require 'crack'
 require 'pg'
 require 'active_record'
 require 'logger'
-
+require 'pry'
 require 'sinatra'
 require "sinatra/reloader" if development?
 require 'httparty'
